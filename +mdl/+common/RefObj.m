@@ -21,12 +21,12 @@ classdef RefObj < handle
     end
 
     methods
-        function ret = eq(lObj, rObj)
-            ret = (lObj.hash == rObj.hash);
+        function ret = eq(lobj, robj)
+            ret = (lobj.hash == robj.hash);
         end
 
-        function ret = ne(lObj, rObj)
-            ret = (lObj.hash ~= rObj.hash);
+        function ret = ne(lobj, robj)
+            ret = (lobj.hash ~= robj.hash);
         end
     end
 end

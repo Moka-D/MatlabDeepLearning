@@ -5,7 +5,6 @@ classdef Pow < mdl.Function
 
     methods
         function self = Pow(c)
-            self@mdl.Function();
             self.c = c;
         end
 

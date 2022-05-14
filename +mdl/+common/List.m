@@ -28,18 +28,18 @@ classdef List < handle
             ret = length(self.data);
         end
 
-        function index = find(self, value)
-            index = [];
-            for i = 1:self.length
-                if self.data{i} == value
-                    index = horzcat(index, i);
+        function idx = find(self, value)
+            idx = [];
+            for i_data = 1:self.length
+                if self.data{i_data} == value
+                    idx = horzcat(idx, i_data);
                 end
             end
         end
 
         function ret = isin(self, value)
-            index = self.find(value);
-            if isempty(index)
+            idx = self.find(value);
+            if isempty(idx)
                 ret = false;
             else
                 ret = true;
@@ -47,19 +47,19 @@ classdef List < handle
         end
 
         function sort(self, key)
-            newData = {};
+            new_data = {};
 
             while self.length()
-                maxIdx = 1;
+                max_idx = 1;
                 for idx = 1:self.length()
-                    if self.data{idx}.(key) > self.data{maxIdx}.(key)
-                        maxIdx = idx;
+                    if self.data{idx}.(key) > self.data{max_idx}.(key)
+                        max_idx = idx;
                     end
                 end
-                newData{end + 1} = self.pop(maxIdx);
+                new_data{end + 1} = self.pop(max_idx);
             end
 
-            self.data = newData;
+            self.data = new_data;
         end
     end
 end
