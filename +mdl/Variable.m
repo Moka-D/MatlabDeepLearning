@@ -135,17 +135,7 @@ classdef Variable < handle
 
     methods (Static, Access = private)
         function add_func(f, funcs, seen_set)
-            is_in = false;
-            n_set = length(seen_set);
-            for i_set = 1:n_set
-                func = seen_set.at(i_set);
-                if f == func
-                    is_in = true;
-                    break
-                end
-            end
-
-            if ~is_in
+            if ~(seen_set.isin(f))
                 funcs.append(f);
                 seen_set.append(f);
                 funcs.sort('generation');

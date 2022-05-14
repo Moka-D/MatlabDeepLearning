@@ -28,6 +28,24 @@ classdef List < handle
             ret = length(self.data);
         end
 
+        function index = find(self, value)
+            index = [];
+            for i = 1:self.length
+                if self.data{i} == value
+                    index = horzcat(index, i);
+                end
+            end
+        end
+
+        function ret = isin(self, value)
+            index = self.find(value);
+            if isempty(index)
+                ret = false;
+            else
+                ret = true;
+            end
+        end
+
         function sort(self, key)
             newData = {};
 
