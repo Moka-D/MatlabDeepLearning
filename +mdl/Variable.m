@@ -1,4 +1,4 @@
-classdef Variable < handle
+classdef Variable < mdl.common.RefObj
     properties
         data
         grad
@@ -9,6 +9,8 @@ classdef Variable < handle
 
     methods
         function self = Variable(val, name)
+            self@mdl.common.RefObj();
+
             if ~exist('name', 'var')
                 name = [];
             end
@@ -28,6 +30,16 @@ classdef Variable < handle
             out = size(self.data);
         end
 
+        function txt = shape(self)
+            txt = '(';
+            sz = size(self.data);
+            for s = sz
+                txt = [txt, num2str(s), ', '];
+            end
+            txt = txt(1:end-2);
+            txt = strcat(txt, ')');
+        end
+
         function out = ndims(self)
             out = ndims(self.data);
         end
@@ -36,11 +48,19 @@ classdef Variable < handle
             out = length(self.data);
         end
 
+        function txt = dtype(self)
+            txt = class(self.data);
+        end
+
         function disp(self)
-            disp('variable(')
-            disp(self.data)
-            disp(')')
-            disp('')
+            if isempty(self.data)
+                disp('variable(empty)')
+            else
+                disp('variable(')
+                disp(self.data)
+                txt = sprintf(', shape=%s, dtype=%s)', self.shape, self.dtype);
+                disp(txt)
+            end
         end
 
         function r = plus(lhs, rhs)
@@ -87,7 +107,7 @@ classdef Variable < handle
 
             funcs = mdl.common.List();
             seen_set = mdl.common.List();
-            self.add_func(self.creator, funcs, seen_set);
+            mdl.common.add_func(self.creator, funcs, seen_set, 'generation');
 
             while length(funcs)
                 f = funcs.pop();
@@ -113,7 +133,7 @@ classdef Variable < handle
                     end
 
                     if ~isempty(x.creator)
-                        self.add_func(x.creator, funcs, seen_set);
+                        mdl.common.add_func(x.creator, funcs, seen_set, 'generation');
                     end
                 end
 
@@ -130,16 +150,6 @@ classdef Variable < handle
     methods (Access = protected)
         function d = double(self)
             d = self.data;
-        end
-    end
-
-    methods (Static, Access = private)
-        function add_func(f, funcs, seen_set)
-            if ~(seen_set.isin(f))
-                funcs.append(f);
-                seen_set.append(f);
-                funcs.sort('generation');
-            end
         end
     end
 end
