@@ -10,10 +10,10 @@ classdef (Abstract) Function < mdl.common.RefObj
             self@mdl.common.RefObj();
         end
 
-        function outputs = call(self, varargin)
+        function outputs = subsref(self, S)
             inputs = {};
-            for idx = 1:length(varargin)
-                x = varargin{idx};
+            for idx = 1:length(S.subs)
+                x = S.subs{idx};
                 inputs{idx} = mdl.as_variable(x);
             end
 

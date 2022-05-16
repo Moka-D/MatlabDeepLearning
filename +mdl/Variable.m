@@ -12,7 +12,7 @@ classdef Variable < mdl.common.RefObj
             self@mdl.common.RefObj();
 
             if ~exist('name', 'var')
-                name = [];
+                name = '';
             end
 
             if ~isempty(val)

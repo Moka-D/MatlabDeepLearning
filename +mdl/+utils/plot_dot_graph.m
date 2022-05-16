@@ -19,7 +19,8 @@ function plot_dot_graph(output, varargin)
     fclose(fid);
 
     [~, ~, extension] = fileparts(to_file);
-    cmd = sprintf('run_dot.bat %s %s %s', graph_path, strsplit(extension, '.'){end}, to_file);
+    cmd = sprintf('C:\Program Files\Graphviz\bin\dot.exe %s -T %s -o %s', ...
+                  graph_path, strsplit(extension, '.'){end}, to_file);
     system(cmd);
 
     try
