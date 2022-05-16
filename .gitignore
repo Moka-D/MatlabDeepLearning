@@ -1,3 +1,6 @@
 /.vscode
 /.tmp
+/steps
+/tests
+/startup.m
 *.png
