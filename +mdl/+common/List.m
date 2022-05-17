@@ -28,6 +28,10 @@ classdef List < handle
             ret = length(self.data);
         end
 
+        function ret = isempty(self)
+            ret = isempty(self.data);
+        end
+
         function idx = find(self, value)
             idx = [];
             for i_data = 1:self.length

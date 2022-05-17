@@ -17,7 +17,7 @@ classdef Variable < mdl.common.RefObj
 
             if ~isempty(val)
                 if ~isnumeric(val)
-                    error('%s is not supported', class(val));
+                    error('%s is not supported', class(val))
                 end
             end
 
@@ -58,8 +58,7 @@ classdef Variable < mdl.common.RefObj
             else
                 disp('variable(')
                 disp(self.data)
-                txt = sprintf(', shape=%s, dtype=%s)', self.shape, self.dtype);
-                disp(txt)
+                fprintf(', shape=%s, dtype=%s)\n', self.shape, self.dtype);
             end
         end
 
@@ -109,10 +108,10 @@ classdef Variable < mdl.common.RefObj
             seen_set = mdl.common.List();
             mdl.common.add_func(self.creator, funcs, seen_set, 'generation');
 
-            while length(funcs)
+            while ~isempty(funcs)
                 f = funcs.pop();
 
-                gys = {};
+                gys = cell(size(f.outputs));
                 for idx = 1:length(f.outputs)
                     output = f.outputs{idx};
                     gys{idx} = output.grad;

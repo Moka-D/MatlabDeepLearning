@@ -1,4 +1,4 @@
-classdef RefObj < handle
+classdef (Abstract) RefObj < handle
     properties (GetAccess = protected, SetAccess = private)
         hash
     end
