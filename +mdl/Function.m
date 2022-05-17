@@ -10,16 +10,47 @@ classdef (Abstract) Function < mdl.common.RefObj
             self@mdl.common.RefObj();
         end
 
-        function outputs = call(self, varargin)
-            inputs = {};
-            for idx = 1:length(varargin)
-                x = varargin{idx};
-                inputs{idx} = mdl.as_variable(x);
+        function out = subsref(self, s)
+            switch s(1).type
+                case '.'
+                    if length(s) == 1
+                        % Implement self.PropertyName
+                        out = self.(s.subs);
+                    elseif length(s) == 2
+                        prop_name = s(1).subs;
+                        if strcmp(s(2).type, '{}')
+                            % Implement self.PropertyName{indices}
+                            out = self.(prop_name){s(2).subs{:}};
+                        elseif strcmp(s(2).type, '()')
+                            % Implement self.PropertyName(indices)
+                            out = self.(prop_name)(s(2).subs{:});
+                        else
+                            error('Not a valid indexing expression')
+                        end
+                    else
+                        error('Not a valid indexing expression')
+                    end
+                case '()'
+                    if length(s) == 1
+                        % Implement self(indices)
+                        out = self.call(s.subs{:});
+                    else
+                        error('Not a valid indexing expression')
+                    end
+                otherwise
+                    error('Not a valid indexing expression')
             end
+        end
+    end
 
-            xs = {};
-            for idx = 1:length(inputs)
-                x = inputs{idx};
+    methods (Access = protected)
+        function outputs = call(self, varargin)
+            input_num = nargin - 1;
+            inputs_ = cell(1, input_num);
+            xs = cell(1, input_num);
+            for idx = 1:input_num
+                x = mdl.as_variable(varargin{idx});
+                inputs_{idx} = x;
                 xs{idx} = x.data;
             end
 
@@ -28,7 +59,7 @@ classdef (Abstract) Function < mdl.common.RefObj
                 ys = {ys};
             end
 
-            outputs = {};
+            outputs = cell(size(ys));
             for idx = 1:length(ys)
                 y = ys{idx};
                 outputs{idx} = mdl.Variable(y);
@@ -36,14 +67,14 @@ classdef (Abstract) Function < mdl.common.RefObj
 
             if mdl.Config.setget_enable_backprop
                 f = @(x) x.generation;
-                self.generation = max(cellfun(f, inputs));
+                self.generation = max(cellfun(f, inputs_));
 
                 for idx = 1:length(outputs)
                     output = outputs{idx};
                     output.set_creator(self);
                 end
 
-                self.inputs = inputs;
+                self.inputs = inputs_;
                 self.outputs = outputs;
             end
 

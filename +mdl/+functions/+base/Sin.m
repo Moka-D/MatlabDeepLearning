@@ -1,12 +1,12 @@
-classdef Square < mdl.Function
+classdef Sin < mdl.Function
     methods
         function y = forward(self, x)
-            y = x .^ 2;
+            y = sin(x);
         end
 
         function gx = backward(self, gy)
             x = self.inputs{1}.data;
-            gx = 2 .* x .* gy;
+            gx = gy .* cos(x);
         end
     end
 end

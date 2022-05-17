@@ -1,5 +1,5 @@
-classdef RefObj < handle
-    properties (GetAccess = public, SetAccess = private)
+classdef (Abstract) RefObj < handle
+    properties (GetAccess = protected, SetAccess = private)
         hash
     end
 
@@ -21,6 +21,10 @@ classdef RefObj < handle
     end
 
     methods
+        function ret = id(self)
+            ret = self.hash;
+        end
+
         function ret = eq(lobj, robj)
             ret = (lobj.hash == robj.hash);
         end
