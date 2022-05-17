@@ -10,7 +10,7 @@ function txt = get_dot_graph(output, verbose)
     mdl.common.add_func(output.creator, funcs, seen_set);
     txt = strcat(txt, dot_var(output, verbose));
 
-    while length(funcs)
+    while ~isempty(funcs)
         func = funcs.pop();
         txt = strcat(txt, dot_func(func));
         for idx = 1:length(func.inputs)
@@ -41,25 +41,32 @@ function txt = dot_var(v, verbose)
         name = [name, tmp_txt];
     end
 
-    dot_var_txt = '%d [label="%s", color=orange, style=filled]\n';
-    txt = sprintf(dot_var_txt, id(v), name);
+    dot_var_txt = '%d [label="%s", color=orange, style=filled]';
+    txt = format_with_return(dot_var_txt, id(v), name);
 end
 
 
 function txt = dot_func(f)
-    dot_func_txt = '%d [label="%s", color=lightblue, style=filled, shape=box]\n';
-    f_classname = strsplit(class(f), '.'){end};
-    txt = sprintf(dot_func_txt, id(f), f_classname);
+    dot_func_txt = '%d [label="%s", color=lightblue, style=filled, shape=box]';
+    f_classname = strsplit(class(f), '.');
+    f_classname = f_classname{end};
+    txt = format_with_return(dot_func_txt, id(f), f_classname);
 
-    dot_edge = '%d -> %d\n';
+    dot_edge = '%d -> %d';
     for ix = 1:length(f.inputs)
         x = f.inputs{ix};
-        tmp_txt = sprintf(dot_edge, id(x), id(f));
+        tmp_txt = format_with_return(dot_edge, id(x), id(f));
         txt = strcat(txt, tmp_txt);
     end
     for iy = 1:length(f.outputs)
         y = f.outputs{iy};
-        tmp_txt = sprintf(dot_edge, id(f), id(y));
+        tmp_txt = format_with_return(dot_edge, id(f), id(y));
         txt = strcat(txt, tmp_txt);
     end
+end
+
+
+function txt = format_with_return(format_spec, varargin)
+    txt = sprintf(format_spec, varargin{:});
+    txt = strcat(txt, '\n');
 end
