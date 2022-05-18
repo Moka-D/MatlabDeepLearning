@@ -1,4 +1,4 @@
-classdef (Abstract) Function < mdl.common.RefObj
+classdef (Abstract) Function < mdl.common.CallableObj
     properties
         inputs
         outputs
@@ -7,39 +7,7 @@ classdef (Abstract) Function < mdl.common.RefObj
 
     methods
         function self = Function()
-            self@mdl.common.RefObj();
-        end
-
-        function out = subsref(self, s)
-            switch s(1).type
-                case '.'
-                    if length(s) == 1
-                        % Implement self.PropertyName
-                        out = self.(s.subs);
-                    elseif length(s) == 2
-                        prop_name = s(1).subs;
-                        if strcmp(s(2).type, '{}')
-                            % Implement self.PropertyName{indices}
-                            out = self.(prop_name){s(2).subs{:}};
-                        elseif strcmp(s(2).type, '()')
-                            % Implement self.PropertyName(indices)
-                            out = self.(prop_name)(s(2).subs{:});
-                        else
-                            error('Not a valid indexing expression')
-                        end
-                    else
-                        error('Not a valid indexing expression')
-                    end
-                case '()'
-                    if length(s) == 1
-                        % Implement self(indices)
-                        out = self.call(s.subs{:});
-                    else
-                        error('Not a valid indexing expression')
-                    end
-                otherwise
-                    error('Not a valid indexing expression')
-            end
+            self@mdl.common.CallableObj();
         end
     end
 
@@ -82,5 +50,10 @@ classdef (Abstract) Function < mdl.common.RefObj
                 outputs = outputs{1};
             end
         end
+    end
+
+    methods (Abstract)
+        ys = forward(self, xs)
+        gxs = backward(self, gys)
     end
 end
