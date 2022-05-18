@@ -5,7 +5,7 @@ classdef Sin < mdl.Function
         end
 
         function gx = backward(self, gy)
-            x = self.inputs{1}.data;
+            x = self.inputs{1};
             gx = gy .* cos(x);
         end
     end

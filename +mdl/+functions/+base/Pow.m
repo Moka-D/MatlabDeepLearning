@@ -13,8 +13,9 @@ classdef Pow < mdl.Function
         end
 
         function gx = backward(self, gy)
-            x = self.inputs{1}.data;
-            gx = self.c .* x .^ (self.c - 1) .* gy;
+            x = self.inputs{1};
+            c_ = self.c;
+            gx = c_ .* x .^ (c_ - 1) .* gy;
         end
     end
 end

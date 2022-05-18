@@ -95,18 +95,30 @@ classdef Variable < mdl.common.RefObj
             self.grad = [];
         end
 
-        function backward(self, retain_grad)
-            if ~exist('retain_grad', 'var')
-                retain_grad = false;
-            end
+        function backward(self, varargin)
+            p = inputParser;
+            addParameter(p, 'retain_grad', false, @islogical);
+            addParameter(p, 'create_graph', false, @islogical);
+            parse(p, varargin{:});
+            retain_grad = p.Results.retain_grad;
+            create_graph = p.Results.create_graph;
 
             if isempty(self.grad)
-                self.grad = ones(size(self.data));
+                self.grad = mdl.Variable(ones(size(self.data)));
             end
 
             funcs = mdl.common.List();
             seen_set = mdl.common.List();
-            mdl.common.add_func(self.creator, funcs, seen_set, 'generation');
+
+            function add_func(f)
+                if ~(seen_set.isin(f))
+                    funcs.append(f);
+                    seen_set.append(f);
+                    funcs.sort('generation');
+                end
+            end
+
+            add_func(self.creator);
 
             while ~isempty(funcs)
                 f = funcs.pop();
@@ -117,23 +129,33 @@ classdef Variable < mdl.common.RefObj
                     gys{idx} = output.grad;
                 end
 
-                gxs = f.backward(gys{:});
-                if ~iscell(gxs)
-                    gxs = {gxs};
+                cm = mdl.ConfigManager('enable_backprop', create_graph);
+                ME = [];
+                try
+                    gxs = f.backward(gys{:});
+                    if ~iscell(gxs)
+                        gxs = {gxs};
+                    end
+    
+                    for idx = 1:length(f.inputs)
+                        x = f.inputs{idx};
+                        gx = gxs{idx};
+                        if isempty(x.grad)
+                            x.grad = gx;
+                        else
+                            x.grad = x.grad + gx;
+                        end
+    
+                        if ~isempty(x.creator)
+                            add_func(x.creator);
+                        end
+                    end
+                catch ME
+                    % NOP
                 end
-
-                for idx = 1:length(f.inputs)
-                    x = f.inputs{idx};
-                    gx = gxs{idx};
-                    if isempty(x.grad)
-                        x.grad = gx;
-                    else
-                        x.grad = x.grad + gx;
-                    end
-
-                    if ~isempty(x.creator)
-                        mdl.common.add_func(x.creator, funcs, seen_set, 'generation');
-                    end
+                cm.delete();
+                if ~isempty(ME)
+                    rethrow(ME);
                 end
 
                 if ~retain_grad

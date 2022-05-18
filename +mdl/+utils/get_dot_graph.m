@@ -7,7 +7,14 @@ function txt = get_dot_graph(output, verbose)
     funcs = mdl.common.List();
     seen_set = mdl.common.List();
 
-    mdl.common.add_func(output.creator, funcs, seen_set);
+    function add_func(f)
+        if ~(seen_set.isin(f))
+            funcs.append(f);
+            seen_set.append(f);
+        end
+    end
+
+    add_func(output.creator);
     txt = strcat(txt, dot_var(output, verbose));
 
     while ~isempty(funcs)
@@ -17,7 +24,7 @@ function txt = get_dot_graph(output, verbose)
             x = func.inputs{idx};
             txt = strcat(txt, dot_var(x, verbose));
             if ~isempty(x.creator)
-                mdl.common.add_func(x.creator, funcs, seen_set);
+                add_func(x.creator);
             end
         end
     end
