@@ -57,6 +57,16 @@ classdef Variable < mdl.common.RefObj
                 txt = 'variable(empty)';
             elseif length(self.data) == 1
                 txt = sprintf('variable(%g)', self.data);
+            elseif ismatrix(self.data)
+                txt = 'variable([';
+                rows = size(self.data, 1);
+                for row = 1:rows
+                    txt = [txt, num2str(self.data(row, :))];
+                    if row ~= rows
+                        txt = [txt, '; '];
+                    end
+                end
+                txt = strcat(txt, '])');
             else
                 txt = sprintf('variable(size=%s)', self.size2str());
             end
