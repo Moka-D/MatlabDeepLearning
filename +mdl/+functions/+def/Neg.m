@@ -1,10 +1,10 @@
 classdef Neg < mdl.Function
     methods
-        function y = forward(self, x)
+        function y = forward(~, x)
             y = -x;
         end
 
-        function gx = backward(self, gy)
+        function gx = backward(~, gy)
             gx = -gy;
         end
     end

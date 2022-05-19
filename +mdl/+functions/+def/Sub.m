@@ -1,10 +1,10 @@
 classdef Sub < mdl.Function
     methods
-        function y = forward(self, x0, x1)
+        function y = forward(~, x0, x1)
             y = x0 - x1;
         end
 
-        function gx = backward(self, gy)
+        function gx = backward(~, gy)
             gx = {gy, -gy};
         end
     end
