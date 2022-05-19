@@ -30,7 +30,7 @@ classdef Variable < mdl.common.RefObj
             out = size(self.data);
         end
 
-        function txt = shape(self)
+        function txt = size2str(self)
             txt = '(';
             sz = size(self.data);
             for s = sz
@@ -52,14 +52,19 @@ classdef Variable < mdl.common.RefObj
             txt = class(self.data);
         end
 
-        function disp(self)
+        function txt = repr(self)
             if isempty(self.data)
-                disp('variable(empty)')
+                txt = 'variable(empty)';
+            elseif length(self.data) == 1
+                txt = sprintf('variable(%g)', self.data);
             else
-                disp('variable(')
-                disp(self.data)
-                fprintf(', shape=%s, dtype=%s)\n', self.shape, self.dtype);
+                txt = sprintf('variable(size=%s)', self.size2str());
             end
+        end
+
+        function disp(self)
+            txt = self.repr();
+            builtin('disp', txt);
         end
 
         function r = plus(lhs, rhs)

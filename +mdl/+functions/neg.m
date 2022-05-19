@@ -1,4 +1,4 @@
 function y = neg(x)
-    f = mdl.functions.base.Neg();
+    f = mdl.functions.def.Neg();
     y = f(x);
 end

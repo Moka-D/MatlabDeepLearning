@@ -1,4 +1,4 @@
 function y = exp(x)
-    f = mdl.functions.base.Exp();
+    f = mdl.functions.def.Exp();
     y = f(x);
 end

@@ -1,12 +1,12 @@
-classdef Sin < mdl.Function
+classdef Exp < mdl.Function
     methods
-        function y = forward(self, x)
-            y = sin(x);
+        function y = forward(~, x)
+            y = exp(x);
         end
 
         function gx = backward(self, gy)
             x = self.inputs{1};
-            gx = gy .* cos(x);
+            gx = exp(x) .* gy;
         end
     end
 end
