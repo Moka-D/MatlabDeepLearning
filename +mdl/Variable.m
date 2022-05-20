@@ -1,4 +1,4 @@
-classdef Variable < mdl.common.RefObj
+classdef Variable < mdl.common.IdentifiedObj
     properties
         data
         grad
@@ -9,7 +9,7 @@ classdef Variable < mdl.common.RefObj
 
     methods
         function self = Variable(val, name)
-            self@mdl.common.RefObj();
+            self@mdl.common.IdentifiedObj();
 
             if ~exist('name', 'var')
                 name = '';
@@ -17,7 +17,7 @@ classdef Variable < mdl.common.RefObj
 
             if ~isempty(val)
                 if ~isnumeric(val)
-                    error('%s is not supported', class(val))
+                    error('%s is not supported.', class(val))
                 end
             end
 
@@ -151,7 +151,7 @@ classdef Variable < mdl.common.RefObj
                     if ~iscell(gxs)
                         gxs = {gxs};
                     end
-    
+
                     for idx = 1:length(f.inputs)
                         x = f.inputs{idx};
                         gx = gxs{idx};
@@ -160,7 +160,7 @@ classdef Variable < mdl.common.RefObj
                         else
                             x.grad = x.grad + gx;
                         end
-    
+
                         if ~isempty(x.creator)
                             add_func(x.creator);
                         end

@@ -1,10 +1,4 @@
-classdef (Abstract) CallableObj < mdl.common.RefObj
-    methods (Access = protected)
-        function self = CallableObj()
-            self@mdl.common.RefObj();
-        end
-    end
-
+classdef (Abstract) CallableObj < handle
     methods
         function out = subsref(self, s)
             switch s(1).type

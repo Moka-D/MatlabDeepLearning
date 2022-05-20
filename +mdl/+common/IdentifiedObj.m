@@ -1,11 +1,11 @@
-classdef (Abstract) RefObj < handle
+classdef (Abstract) IdentifiedObj < handle
     properties (GetAccess = protected, SetAccess = private)
         hash
     end
 
     methods (Access = protected)
-        function self = RefObj()
-            self.hash = mdl.common.RefObj.increment();
+        function self = IdentifiedObj()
+            self.hash = mdl.common.IdentifiedObj.increment();
         end
     end
 
