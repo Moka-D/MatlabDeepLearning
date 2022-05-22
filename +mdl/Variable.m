@@ -101,6 +101,22 @@ classdef Variable < mdl.common.IdentifiedObj
             r = mdl.functions.pow(self, c);
         end
 
+        function out = reshape(self, varargin)
+            sz = cell2mat(varargin);
+            out = mdl.functions.reshape(self, sz);
+        end
+
+        function out = transpose(self)
+            out = mdl.functions.transpose(self);
+        end
+
+        function out = sum(self, axis)
+            if ~exist('axis', 'var')
+                axis = [];
+            end
+            out = mdl.functions.sum(self, axis);
+        end
+
         function set_creator(self, func)
             self.creator = func;
             self.generation = func.generation + 1;

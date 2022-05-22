@@ -1,4 +1,26 @@
 function txt = get_dot_graph(output, verbose)
+    %% txt = mdl.utils.get_dot_graph(output, verbose)
+    %
+    % Generate a graphviz DOT text of a computational graph.
+    %
+    % Build a graph of functions and variables backward-reachable from the 
+    % output. To visualize a graphviz DOT text, you need the dot binary
+    % from the graphviz package (www.graphviz.org)
+    %
+    % Parameters
+    % ----------
+    % output (mdl.Variable): Output variable from which the graph is
+    %     constucted.
+    % verbose (logical): If true the dot graph contains additional
+    %     information such as sizes and types.
+    %
+    % Returns
+    % -------
+    % txt (char): A graphviz DOT text consisting of nodes and edges that
+    %     are backward-reachable from the output
+    %
+    % see also: mdl.utils.plot_dot_graph
+
     if ~exist('verbose', 'var')
         verbose = false;
     end
