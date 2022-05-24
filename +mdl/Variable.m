@@ -93,6 +93,10 @@ classdef Variable < mdl.common.IdentifiedObj
             r = mdl.functions.mul(lhs, rhs);
         end
 
+        function r = mtimes(lhs, rhs)
+            r = mdl.functions.matmul(lhs, rhs);
+        end
+
         function r = rdivide(lhs, rhs)
             r = mdl.functions.div(lhs, rhs);
         end
