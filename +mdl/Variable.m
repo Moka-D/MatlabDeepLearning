@@ -26,8 +26,12 @@ classdef Variable < mdl.common.IdentifiedObj
             self.name = name;
         end
 
-        function out = size(self)
-            out = size(self.data);
+        function out = size(self, dim)
+            if ~exist('dim', 'var')
+                out = size(self.data);
+            else
+                out = size(self.data, dim);
+            end
         end
 
         function txt = size2str(self)
@@ -135,20 +139,18 @@ classdef Variable < mdl.common.IdentifiedObj
             addParameter(p, 'retain_grad', false, @islogical);
             addParameter(p, 'create_graph', false, @islogical);
             parse(p, varargin{:});
-            retain_grad = p.Results.retain_grad;
-            create_graph = p.Results.create_graph;
 
             if isempty(self.grad)
                 self.grad = mdl.Variable(ones(size(self.data)));
             end
 
             funcs = mdl.common.List();
-            seen_set = mdl.common.List();
+            seen_set = mdl.common.Set();
 
             function add_func(f)
                 if ~(seen_set.isin(f))
                     funcs.append(f);
-                    seen_set.append(f);
+                    seen_set.add(f);
                     funcs.sort('generation');
                 end
             end
@@ -164,7 +166,7 @@ classdef Variable < mdl.common.IdentifiedObj
                     gys{idx} = output.grad;
                 end
 
-                cm = mdl.ConfigManager('enable_backprop', create_graph);
+                cm = mdl.ConfigManager('enable_backprop', p.Results.create_graph);
                 ME = [];
                 try
                     gxs = f.backward(gys{:});
@@ -193,7 +195,7 @@ classdef Variable < mdl.common.IdentifiedObj
                     rethrow(ME);
                 end
 
-                if ~retain_grad
+                if ~p.Results.retain_grad
                     for idx = 1:length(f.outputs)
                         y = f.outputs{1};
                         y.grad = [];

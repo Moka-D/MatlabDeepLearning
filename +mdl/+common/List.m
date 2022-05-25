@@ -53,12 +53,22 @@ classdef List < handle
         end
 
         function sort(self, key)
+            if exist('key', 'var')
+                key = [];
+            end
+
             new_data = cell(size(self.data));
             cnt = 1;
+
             while self.length()
                 min_idx = 1;
                 for idx = 1:self.length()
-                    if self.data{idx}.(key) < self.data{min_idx}.(key)
+                    if isempty(key)
+                        condition = self.data{idx} < self.data{min_idx};
+                    else
+                        condition = self.data{idx}.(key) < self.data{min_idx}.(key);
+                    end
+                    if condition
                         min_idx = idx;
                     end
                 end

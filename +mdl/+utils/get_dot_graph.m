@@ -27,7 +27,7 @@ function txt = get_dot_graph(output, verbose)
 
     txt = '';
     funcs = mdl.common.List();
-    seen_set = mdl.common.List();
+    seen_set = mdl.common.Set();
 
     function add_func(f)
         if ~(seen_set.isin(f))

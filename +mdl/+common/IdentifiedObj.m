@@ -32,5 +32,13 @@ classdef (Abstract) IdentifiedObj < handle
         function ret = ne(lobj, robj)
             ret = (lobj.hash ~= robj.hash);
         end
+
+        function ret = lt(lobj, robj)
+            ret = (lobj.hash < robj.hash);
+        end
+
+        function ret = gt(lobj, robj)
+            ret = (lobj.hash > robj.hash);
+        end
     end
 end
