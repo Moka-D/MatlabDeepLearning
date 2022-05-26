@@ -10,7 +10,7 @@ classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
 
         function P = addprop(self, name, value)
             if ~isprop(self, name)
-                if isa(value, 'mdl.Parameter')
+                if isa(value, 'mdl.Parameter') || isa(value, 'mdl.Layer')
                     self.params_.add(name);
                 end
                 P = addprop@dynamicprops(self, name);
@@ -23,7 +23,7 @@ classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
             for idx = 1:length(self.params_)
                 name = self.params_.at(idx);
                 obj = self.(name);
-                if isa(obj, 'mdl.layers.Layer')
+                if isa(obj, 'mdl.Layer')
                     out = [out, obj.params()];
                 else
                     out{end+1} = obj;

@@ -1,4 +1,4 @@
-classdef Linear < mdl.layers.Layer
+classdef Linear < mdl.Layer
     methods
         function self = Linear(out_size, varargin)
             p = inputParser;
@@ -7,7 +7,7 @@ classdef Linear < mdl.layers.Layer
             addParameter(p, 'in_size', [], valid_in_size);
             parse(p, varargin{:});
 
-            self@mdl.layers.Layer();
+            self@mdl.Layer();
             self.addprop('in_size', p.Results.in_size);
             self.addprop('out_size', out_size);
 
