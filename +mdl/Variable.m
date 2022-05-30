@@ -134,7 +134,7 @@ classdef Variable < mdl.common.IdentifiedObj
                         % self(indices)
                         [varargout{1:nargout}] = mdl.functions.get_item(self, s(1).subs{:});
                     else
-                        [varargout{1:nargout}] = builtin('subsref', self, s);
+                        error('Not a valid indexing expression.')
                     end
                 case '{}'
                     [varargout{1:nargout}] = builtin('subsref', self, s);

@@ -9,7 +9,7 @@ classdef GetItem < mdl.Function
         end
 
         function y = forward(self, x)
-            y = x(self.slices, :);
+            y = mdl.np.slice(x, self.slices{:});
         end
 
         function gx = backward(self, gy)

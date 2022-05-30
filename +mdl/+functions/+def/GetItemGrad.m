@@ -12,11 +12,11 @@ classdef GetItemGrad < mdl.Function
 
         function gx = forward(self, gy)
             gx = zeros(self.in_size);
-            gx(self.slices, :) = gx(self.slices, :) + gy;
+            gx = mdl.np.scatter_add(gx, gy, self.slices{:});
         end
 
         function ggy = backward(self, ggx)
-            ggy = mdl.functions.get_item(ggx, self.slices);
+            ggy = mdl.functions.get_item(ggx, self.slices{:});
         end
     end
 end
