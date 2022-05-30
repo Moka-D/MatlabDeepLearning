@@ -12,6 +12,10 @@ classdef List < handle
             val = self.data{idx};
         end
 
+        function val = last(self)
+            val = self.data{end};
+        end
+
         function append(self, val)
             self.data{end + 1} = val;
         end

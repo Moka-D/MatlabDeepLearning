@@ -20,7 +20,7 @@ classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
 
         function out = params(self)
             out = {};
-            for idx = 1:length(self.params_)
+            for idx = length(self.params_):-1:1
                 name = self.params_.at(idx);
                 obj = self.(name);
                 if isa(obj, 'mdl.Layer')
@@ -31,13 +31,12 @@ classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
             end
         end
 
-        function out = cleargrad(self)
+        function cleargrad(self)
             params = self.params();
             for idx = 1:length(params)
                 param = params{idx};
                 param.cleargrad();
             end
-            out = true; % Always return true to avoid error at overriding subsref function.
         end
     end
 

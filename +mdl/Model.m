@@ -19,4 +19,8 @@ classdef (Abstract) Model < mdl.Layer
             img = mdl.utils.plot_dot_graph(y, 'verbose', true, 'to_file', to_file);
         end
     end
+
+    methods (Abstract)
+        y = forward(self, x)
+    end
 end
