@@ -1,4 +1,4 @@
-classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
+classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj & mdl.common.IdentifiedObj
     properties (Access = protected)
         params_
     end
