@@ -125,6 +125,24 @@ classdef Variable < mdl.common.IdentifiedObj
             out = mdl.functions.sum(self, axis);
         end
 
+        function varargout = subsref(self, s)
+            switch s(1).type
+                case '.'
+                    [varargout{1:nargout}] = builtin('subsref', self, s);
+                case '()'
+                    if length(s) == 1
+                        % self(indices)
+                        [varargout{1:nargout}] = mdl.functions.get_item(self, s(1).subs{:});
+                    else
+                        [varargout{1:nargout}] = builtin('subsref', self, s);
+                    end
+                case '{}'
+                    [varargout{1:nargout}] = builtin('subsref', self, s);
+                otherwise
+                    error('Not a valid indexing expression.')
+            end
+        end
+
         function set_creator(self, func)
             self.creator = func;
             self.generation = func.generation + 1;
