@@ -1,7 +1,13 @@
 function y = flatten(x)
     if ismatrix(x)
-        x_T = x.';
-        y = x_T(:);
+        if size(x, 1) == 1
+            y = x;
+        elseif size(x, 2) == 1
+            y = x.';
+        else
+            x_T = x.';
+            y = x_T(:);
+        end
     else
         y = flatten_multi(x);
     end

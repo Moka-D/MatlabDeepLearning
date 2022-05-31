@@ -1,7 +1,7 @@
 classdef SoftmaxCrossEntropy < mdl.Function
     methods
         function y = forward(~, x, t)
-            N = x.size(1);
+            N = size(x, 1);
             log_z = mdl.utils.logsumexp(x, 2);
             log_p = x - log_z;
             ind = sub2ind(size(log_p), 1:N, mdl.np.flatten(t));

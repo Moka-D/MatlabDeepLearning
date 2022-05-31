@@ -26,11 +26,20 @@ classdef Variable < mdl.common.IdentifiedObj
             self.name = name;
         end
 
-        function out = size(self, dim)
-            if ~exist('dim', 'var')
-                out = size(self.data);
+        function varargout = size(self, dim)
+            n_outputs = nargout;
+            varargout = cell(1, n_outputs);
+
+            if n_outputs == 0 || n_outputs == 1
+                if ~exist('dim', 'var')
+                    varargout{1} = size(self.data);
+                else
+                    varargout{1} = size(self.data, dim);
+                end
             else
-                out = size(self.data, dim);
+                for k = 1:n_outputs
+                    varargout{k} = size(self.data, k);
+                end
             end
         end
 
@@ -193,6 +202,9 @@ classdef Variable < mdl.common.IdentifiedObj
                     end
 
                     for idx = 1:length(f.inputs)
+                        if idx > length(gxs)
+                            break
+                        end
                         x = f.inputs{idx};
                         gx = gxs{idx};
                         if isempty(x.grad)
