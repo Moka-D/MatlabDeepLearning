@@ -57,29 +57,14 @@ classdef List < handle
         end
 
         function sort(self, key)
-            if exist('key', 'var')
-                key = [];
+            if exist('key', 'var') && isprop(self.data{1}, key)
+                target_arr = cellfun(@(x) x.(key), self.data);
+            else
+                target_arr = cellfun(@(x) x.id, self.data);
             end
 
-            new_data = cell(size(self.data));
-            cnt = 1;
-
-            while self.length()
-                min_idx = 1;
-                for idx = 1:self.length()
-                    if isempty(key)
-                        condition = self.data{idx} < self.data{min_idx};
-                    else
-                        condition = self.data{idx}.(key) < self.data{min_idx}.(key);
-                    end
-                    if condition
-                        min_idx = idx;
-                    end
-                end
-                new_data{cnt} = self.pop(min_idx);
-                cnt = cnt + 1;
-            end
-            self.data = new_data;
+            [~, I] = sort(target_arr);
+            self.data = self.data(I);
         end
     end
 end

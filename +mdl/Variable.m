@@ -118,11 +118,11 @@ classdef Variable < mdl.common.IdentifiedObj
             out = mdl.functions.transpose(self);
         end
 
-        function out = sum(self, axis)
-            if ~exist('axis', 'var')
-                axis = [];
+        function out = sum(self, dim)
+            if ~exist('dim', 'var')
+                dim = [];
             end
-            out = mdl.functions.sum(self, axis);
+            out = mdl.functions.sum(self, dim);
         end
 
         function varargout = subsref(self, s)

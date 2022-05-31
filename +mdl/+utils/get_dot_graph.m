@@ -71,7 +71,7 @@ function txt = dot_var(v, verbose)
     end
 
     dot_var_txt = '%d [label="%s", color=orange, style=filled]';
-    txt = format_with_return(dot_var_txt, id(v), name);
+    txt = format_with_return(dot_var_txt, v.id, name);
 end
 
 
@@ -79,17 +79,17 @@ function txt = dot_func(f)
     dot_func_txt = '%d [label="%s", color=lightblue, style=filled, shape=box]';
     f_classname = strsplit(class(f), '.');
     f_classname = f_classname{end};
-    txt = format_with_return(dot_func_txt, id(f), f_classname);
+    txt = format_with_return(dot_func_txt, f.id, f_classname);
 
     dot_edge = '%d -> %d';
     for ix = 1:length(f.inputs)
         x = f.inputs{ix};
-        tmp_txt = format_with_return(dot_edge, id(x), id(f));
+        tmp_txt = format_with_return(dot_edge, x.id, f.id);
         txt = strcat(txt, tmp_txt);
     end
     for iy = 1:length(f.outputs)
         y = f.outputs{iy};
-        tmp_txt = format_with_return(dot_edge, id(f), id(y));
+        tmp_txt = format_with_return(dot_edge, f.id, y.id);
         txt = strcat(txt, tmp_txt);
     end
 end

@@ -1,8 +1,7 @@
-function dst = scatter_add(src, value, varargin)
+function y = scatter_add(x, value, varargin)
     S = struct();
     S(1).type = '()';
     S(1).subs = varargin;
-    tmp = subsref(src, S);
-    tmp = tmp + value;
-    dst = subsasgn(src, S, tmp);
+    tmp = subsref(x, S) + value;
+    y = subsasgn(x, S, tmp);
 end

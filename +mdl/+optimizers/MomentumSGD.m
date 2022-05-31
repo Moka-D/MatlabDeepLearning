@@ -21,7 +21,7 @@ classdef MomentumSGD < mdl.optimizers.Optimizer
         end
 
         function update_one(self, param)
-            v_key = id(param);
+            v_key = param.id;
             if ~isKey(self.vs, v_key)
                 self.vs(v_key) = zeros(size(param.data));
             end

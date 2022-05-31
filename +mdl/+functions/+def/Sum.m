@@ -1,17 +1,17 @@
 classdef Sum < mdl.Function
     properties
-        axis
+        dim
         x_sz
     end
 
     methods
-        function self = Sum(axis)
-            self.axis = axis;
+        function self = Sum(dim)
+            self.dim = dim;
         end
 
         function y = forward(self, x)
             self.x_sz = size(x);
-            y = mdl.np.sum(x, self.axis);
+            y = mdl.np.sum(x, self.dim);
         end
 
         function gx = backward(self, gy)
