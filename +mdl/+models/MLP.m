@@ -8,10 +8,10 @@ classdef MLP < mdl.Model
             self.addprop('activation', activation);
             self.addprop('layers', mdl.common.List());
 
-            for i = 1:length(fc_output_sizes)
-                out_size = fc_output_sizes(i);
+            for idx = 1:length(fc_output_sizes)
+                out_size = fc_output_sizes(idx);
                 layer = mdl.layers.Linear(out_size);
-                self.addprop(strcat('l', num2str(i)), layer);
+                self.addprop(strcat('l', num2str(idx)), layer);
                 self.layers.append(layer);
             end
         end

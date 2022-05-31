@@ -9,7 +9,10 @@ classdef GetItem < mdl.Function
         end
 
         function y = forward(self, x)
-            y = mdl.np.slice(x, self.slices{:});
+            S = struct();
+            S(1).type = '()';
+            S(1).subs = self.slices;
+            y = subsref(x, S);
         end
 
         function gx = backward(self, gy)

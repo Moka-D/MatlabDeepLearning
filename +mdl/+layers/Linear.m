@@ -1,4 +1,9 @@
 classdef Linear < mdl.Layer
+    properties
+        in_size
+        out_size
+    end
+
     methods
         function self = Linear(out_size, varargin)
             p = inputParser;
@@ -8,8 +13,8 @@ classdef Linear < mdl.Layer
             parse(p, varargin{:});
 
             self@mdl.Layer();
-            self.addprop('in_size', p.Results.in_size);
-            self.addprop('out_size', out_size);
+            self.in_size = p.Results.in_size;
+            self.out_size = out_size;
 
             self.addprop('W', mdl.Parameter([], 'W'));
             if ~isempty(self.in_size)
@@ -36,7 +41,7 @@ classdef Linear < mdl.Layer
         function init_W(self)
             I = self.in_size;
             O = self.out_size;
-            W_data = randn(I, O) ./ sqrt(1 ./ self.in_size);
+            W_data = randn(I, O) .* sqrt(1 ./ I);
             self.W.data = W_data;
         end
     end

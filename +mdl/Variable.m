@@ -215,7 +215,7 @@ classdef Variable < mdl.common.IdentifiedObj
 
                 if ~p.Results.retain_grad
                     for idx = 1:length(f.outputs)
-                        y = f.outputs{1};
+                        y = f.outputs{idx};
                         y.grad = [];
                     end
                 end
