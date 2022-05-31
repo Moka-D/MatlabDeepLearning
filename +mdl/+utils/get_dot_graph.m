@@ -3,7 +3,7 @@ function txt = get_dot_graph(output, verbose)
     %
     % Generate a graphviz DOT text of a computational graph.
     %
-    % Build a graph of functions and variables backward-reachable from the 
+    % Build a graph of functions and variables backward-reachable from the
     % output. To visualize a graphviz DOT text, you need the dot binary
     % from the graphviz package (www.graphviz.org)
     %

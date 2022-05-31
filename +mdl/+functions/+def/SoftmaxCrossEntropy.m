@@ -17,7 +17,7 @@ classdef SoftmaxCrossEntropy < mdl.Function
             y = mdl.functions.softmax(x);
             % convert to one-hot
             tmp = eye(CLS_NUM);
-            t_onehot = tmp(t.data, :); 
+            t_onehot = tmp(t.data, :);
             y = (y - t_onehot) .* gy;
         end
     end
