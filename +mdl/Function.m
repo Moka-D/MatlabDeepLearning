@@ -1,4 +1,4 @@
-classdef (Abstract) Function < mdl.common.CallableObj
+classdef (Abstract) Function < mdl.common.IdentifiedObj & mdl.common.CallableObj
     properties
         inputs
         outputs
@@ -7,7 +7,7 @@ classdef (Abstract) Function < mdl.common.CallableObj
 
     methods
         function self = Function()
-            self@mdl.common.CallableObj();
+            self@mdl.common.IdentifiedObj();
         end
     end
 

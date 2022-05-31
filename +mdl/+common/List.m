@@ -12,6 +12,10 @@ classdef List < handle
             val = self.data{idx};
         end
 
+        function val = last(self)
+            val = self.data{end};
+        end
+
         function append(self, val)
             self.data{end + 1} = val;
         end
@@ -53,19 +57,14 @@ classdef List < handle
         end
 
         function sort(self, key)
-            new_data = cell(size(self.data));
-            cnt = 1;
-            while self.length()
-                min_idx = 1;
-                for idx = 1:self.length()
-                    if self.data{idx}.(key) < self.data{min_idx}.(key)
-                        min_idx = idx;
-                    end
-                end
-                new_data{cnt} = self.pop(min_idx);
-                cnt = cnt + 1;
+            if exist('key', 'var') && isprop(self.data{1}, key)
+                target_arr = cellfun(@(x) x.(key), self.data);
+            else
+                target_arr = cellfun(@(x) x.id, self.data);
             end
-            self.data = new_data;
+
+            [~, I] = sort(target_arr);
+            self.data = self.data(I);
         end
     end
 end

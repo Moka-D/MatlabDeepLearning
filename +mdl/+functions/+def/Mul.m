@@ -6,7 +6,13 @@ classdef Mul < mdl.Function
 
         function gxs = backward(self, gy)
             [x0, x1] = self.inputs{:};
-            gxs = {gy .* x1, gy .* x0};
+            gx0 = gy .* x1;
+            gx1 = gy .* x0;
+            if ~isequal(size(x0), size(x1))
+                gx0 = mdl.functions.sum_to(gx0, size(x0));
+                gx1 = mdl.functions.sum_to(gx1, size(x1));
+            end
+            gxs = {gx0, gx1};
         end
     end
 end
