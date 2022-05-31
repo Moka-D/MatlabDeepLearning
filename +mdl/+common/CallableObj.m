@@ -20,6 +20,6 @@ classdef (Abstract) CallableObj < handle
     end
 
     methods (Abstract, Access = protected)
-        out = call(self, varargin)
+        call(self, varargin)
     end
 end

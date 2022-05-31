@@ -25,7 +25,7 @@ classdef (Abstract) Optimizer < handle
 
             for f_i = 1:length(self.hooks)
                 f = self.hooks.at(f_i);
-                f(params_list.data{:});
+                f(params_list.data);
             end
 
             for p_i = 1:length(params_list)
