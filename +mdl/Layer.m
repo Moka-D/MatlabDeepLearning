@@ -21,7 +21,7 @@ classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
         function out = params(self)
             out = {};
             for idx = length(self.params_):-1:1
-                name = self.params_.at(idx);
+                name = self.params_{idx};
                 obj = self.(name);
                 if isa(obj, 'mdl.Layer')
                     out = [out, obj.params()];

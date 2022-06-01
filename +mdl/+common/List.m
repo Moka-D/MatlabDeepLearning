@@ -8,8 +8,17 @@ classdef List < handle
             self.data = varargin;
         end
 
-        function val = at(self, idx)
-            val = self.data{idx};
+        function varargout = subsref(self, s)
+            switch s(1).type
+                case '.'
+                    [varargout{1:nargout}] = builtin('subsref', self, s);
+                case '{}'
+                    [varargout{1:nargout}] = builtin('subsref', self.data, s);
+                case '()'
+                    [varargout{1:nargout}] = builtin('subsref', self, s);
+                otherwise
+                    error('Not a valid indexing expression')
+            end
         end
 
         function val = last(self)
