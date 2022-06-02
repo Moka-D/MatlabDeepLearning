@@ -61,7 +61,7 @@ classdef Variable < mdl.common.IdentifiedObj
             out = length(self.data);
         end
 
-        function txt = dtype(self)
+        function txt = class(self)
             txt = class(self.data);
         end
 

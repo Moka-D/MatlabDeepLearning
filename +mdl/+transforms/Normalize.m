@@ -39,7 +39,7 @@ classdef Normalize < mdl.common.CallableObj
                 else
                     msz(1) = length(self.mean);
                 end
-                mean_ = mdl.np.reshape(self.mean, msz);
+                mean_ = mdl.np.reshape(cast(self.mean, class(array)), msz);
             end
             if ~isscalar(std_)
                 rsz = 1 * mdl.np.ndim(array);
@@ -48,7 +48,7 @@ classdef Normalize < mdl.common.CallableObj
                 else
                     rsz(1) = length(self.std);
                 end
-                std_ = mdl.np.reshape(self.std, rsz);
+                std_ = mdl.np.reshape(cast(self.std, class(array)), rsz);
             end
 
             out = (array - mean_) ./ std_;

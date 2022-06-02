@@ -66,7 +66,7 @@ function txt = dot_var(v, verbose)
         if ~isempty(v.name)
             name = [name, ': '];
         end
-        tmp_txt = sprintf('%s %s', v.size2str, v.dtype);
+        tmp_txt = sprintf('%s %s', v.size2str, class(v));
         name = [name, tmp_txt];
     end
 
