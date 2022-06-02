@@ -1,5 +1,5 @@
 classdef Compose < mdl.common.CallableObj
-    %% Compose
+    % mdl.transforms.Compose(transforms)
     %
     % Compose several transforms.
     %

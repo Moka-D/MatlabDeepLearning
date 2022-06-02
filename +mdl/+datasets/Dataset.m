@@ -37,7 +37,7 @@ classdef (Abstract) Dataset < mdl.common.GetItemObj
     methods (Access = protected)
         function [data, label] = getitem(self, index)
             assert(isscalar(index));
-            data = self.transform(self.data(index, :));
+            data = self.transform(mdl.np.slice_at_max_dim(self.data, index));
             if isempty(self.label)
                 label = [];
             else

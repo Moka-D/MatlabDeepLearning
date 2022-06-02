@@ -7,6 +7,7 @@ function y = flatten(x)
         else
             x_T = x.';
             y = x_T(:);
+            y = y.';
         end
     else
         y = flatten_multi(x);

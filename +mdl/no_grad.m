@@ -1,3 +1,3 @@
-function no_grad()
-    mdl.Config.setget_enable_backprop(false);
+function cm = no_grad()
+    cm = mdl.ConfigManager('enable_backprop', false);
 end

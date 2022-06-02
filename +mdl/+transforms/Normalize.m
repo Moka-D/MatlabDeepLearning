@@ -1,5 +1,5 @@
 classdef Normalize < mdl.common.CallableObj
-    %% Normalize
+    % mdl.transforms.Normalize(mean_, std_)
     %
     % Normalize a array with mean and standard deviation.
     %
