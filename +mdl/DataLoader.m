@@ -36,7 +36,7 @@ classdef DataLoader < handle
         function [x, t] = next(self)
             if self.iteration >= self.max_iter
                 self.reset();
-                error('DataLoader:StopIteration', 'Stop iteration')
+                error('DataLoader:StopIteration', 'Stop iteration');
             end
 
             iter = self.iteration;

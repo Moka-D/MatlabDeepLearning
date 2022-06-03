@@ -17,7 +17,7 @@ classdef List < handle
                 case '()'
                     [varargout{1:nargout}] = builtin('subsref', self, s);
                 otherwise
-                    error('Not a valid indexing expression')
+                    error('Not a valid indexing expression');
             end
         end
 

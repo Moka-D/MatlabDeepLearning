@@ -17,7 +17,7 @@ classdef Variable < mdl.common.IdentifiedObj
 
             if ~isempty(val)
                 if ~isnumeric(val)
-                    error('%s is not supported.', class(val))
+                    error('%s is not supported.', class(val));
                 end
             end
 
@@ -143,12 +143,12 @@ classdef Variable < mdl.common.IdentifiedObj
                         % self(indices)
                         [varargout{1:nargout}] = mdl.functions.get_item(self, s(1).subs{:});
                     else
-                        error('Not a valid indexing expression.')
+                        error('Not a valid indexing expression.');
                     end
                 case '{}'
                     [varargout{1:nargout}] = builtin('subsref', self, s);
                 otherwise
-                    error('Not a valid indexing expression.')
+                    error('Not a valid indexing expression.');
             end
         end
 

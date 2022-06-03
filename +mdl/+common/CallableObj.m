@@ -9,12 +9,12 @@ classdef (Abstract) CallableObj < handle
                         % Implement self(indices)
                         [varargout{1:nargout}] = self.call(s.subs{:});
                     else
-                        error('Not a valid indexing expression')
+                        error('Not a valid indexing expression');
                     end
                 case '{}'
                     [varargout{1:nargout}] = builtin('subsref', self, s);
                 otherwise
-                    error('Not a valid indexing expression')
+                    error('Not a valid indexing expression');
             end
         end
     end
