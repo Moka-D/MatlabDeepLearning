@@ -42,15 +42,21 @@ classdef DataLoader < handle
             iter = self.iteration;
             batch_size_ = self.batch_size;
             batch_index = self.index((iter * batch_size_ + 1):((iter + 1) * batch_size_));
-            x = [];
-            t = zeros(batch_size_, 1);
+            batch_x = cell(batch_size_, 1);
+            batch_t = cell(batch_size_, 1);
 
             for idx = 1:batch_size_
                 [tmp_x, tmp_t] = self.dataset(batch_index(idx));
-                x_dim = mdl.np.ndim(tmp_x);
-                x = mdl.np.assign_at_dim(x, x_dim + 1, idx, tmp_x);
-                t(idx) = tmp_t;
+                batch_x{idx} = tmp_x;
+                batch_t{idx} = tmp_t;
             end
+
+            if size(batch_x{1, 1}) > 1
+                x = cell2mat(reshape(batch_x, 1, 1, []));
+            else
+                x = cell2mat(batch_x);
+            end
+            t = cell2mat(batch_t);
 
             self.iteration = self.iteration + 1;
         end

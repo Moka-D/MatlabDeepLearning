@@ -81,7 +81,7 @@ classdef MNIST < mdl.datasets.Dataset
 
                 num_items = fread(fid, 1, 'int32', 0, 'b');
 
-                labels = fread(fid, inf, 'unsigned char=>double');
+                labels = fread(fid, inf, 'unsigned char=>uint8');
                 labels = reshape(labels, num_items, 1); % num_items x 1
                 labels = labels + 1;
             catch ME
