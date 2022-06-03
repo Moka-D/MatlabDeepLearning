@@ -30,7 +30,7 @@ classdef Adam < mdl.optimizers.Optimizer
 
         function update(self)
             self.t = self.t + 1;
-            update@mdl.optimizers.Optimizer();
+            update@mdl.optimizers.Optimizer(self);
         end
 
         function r = lr(self)

@@ -234,10 +234,4 @@ classdef Variable < mdl.common.IdentifiedObj
             end
         end
     end
-
-    methods (Access = protected)
-        function d = double(self)
-            d = self.data;
-        end
-    end
 end
