@@ -168,7 +168,12 @@ classdef Variable < mdl.common.IdentifiedObj
             parse(p, varargin{:});
 
             if isempty(self.grad)
-                self.grad = mdl.Variable(ones(size(self.data)));
+                grad_val = ones(size(self.data));
+                if mdl.gpu.on_gpu(self.data)
+                    self.grad = mdl.Variable(gpuArray(grad_val));
+                else
+                    self.grad = mdl.Variable(grad_val);
+                end
             end
 
             funcs = mdl.common.List();
@@ -231,6 +236,18 @@ classdef Variable < mdl.common.IdentifiedObj
                         y.grad = [];
                     end
                 end
+            end
+        end
+
+        function to_cpu(self)
+            if ~isempty(self.data)
+                self.data = mdl.gpu.as_cpu(self.data);
+            end
+        end
+
+        function to_gpu(self)
+            if ~isempty(self.data)
+                self.data = mdl.gpu.as_gpu(self.data);
             end
         end
     end

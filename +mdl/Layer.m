@@ -38,6 +38,22 @@ classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
                 param.cleargrad();
             end
         end
+
+        function to_cpu(self)
+            params = self.params();
+            for idx = 1:length(params)
+                param = params{idx};
+                param.to_cpu();
+            end
+        end
+
+        function to_gpu(self)
+            params = self.params();
+            for idx = 1:length(params)
+                param = params{idx};
+                param.to_gpu();
+            end
+        end
     end
 
     methods (Access = protected)

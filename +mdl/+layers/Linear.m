@@ -36,17 +36,23 @@ classdef Linear < mdl.Layer
         function y = forward(self, x)
             if isempty(self.W.data)
                 self.in_size = size(x, 2);
-                self.init_W();
+                self.init_W(mdl.gpu.on_gpu(x));
             end
             y = mdl.functions.linear(x, self.W, self.b);
         end
     end
 
     methods (Access = private)
-        function init_W(self)
+        function init_W(self, gpu)
+            if ~exist('gpu', 'var')
+                gpu = false;
+            end
             I = self.in_size;
             O = self.out_size;
             W_data = randn(I, O, self.dtype) .* sqrt(1 ./ I);
+            if gpu
+                W_data = mdl.gpu.as_gpu(W_data);
+            end
             self.W.data = W_data;
         end
     end

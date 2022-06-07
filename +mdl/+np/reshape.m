@@ -15,7 +15,11 @@ end
 
 function y = reshape_2d(x_flat, sz)
     sz_flipped = flip(sz);
-    x_tmp = builtin('reshape', x_flat, sz_flipped);
+    if isequal(size(x_flat), sz_flipped)
+        x_tmp = x_flat;
+    else
+        x_tmp = builtin('reshape', x_flat, sz_flipped);
+    end
     y = x_tmp.';
 end
 

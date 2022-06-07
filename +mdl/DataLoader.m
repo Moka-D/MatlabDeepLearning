@@ -5,21 +5,26 @@ classdef DataLoader < handle
         shuffle
         data_size
         max_iter
+        gpu
         iteration
         index
     end
 
     methods
-        function self = DataLoader(dataset, batch_size, shuffle)
-            if ~exist('shuffle', 'var')
-                shuffle = true;
-            end
+        function self = DataLoader(dataset, batch_size, varargin)
+            p = inputParser;
+            addRequired(p, 'dataset', @(x) isa(x, 'mdl.datasets.Dataset'));
+            addRequired(p, 'batch_size', @isscalar);
+            addOptional(p, 'shuffle', true, @islogical);
+            addParameter(p, 'gpu', false, @islogical);
+            parse(p, dataset, batch_size, varargin{:});
 
-            self.dataset = dataset;
-            self.batch_size = batch_size;
-            self.shuffle = shuffle;
-            self.data_size = length(dataset);
-            self.max_iter = ceil(self.data_size / batch_size);
+            self.dataset = p.Results.dataset;
+            self.batch_size = p.Results.batch_size;
+            self.shuffle = p.Results.shuffle;
+            self.data_size = length(self.dataset);
+            self.max_iter = ceil(self.data_size / self.batch_size);
+            self.gpu = p.Results.gpu;
 
             self.reset();
         end
@@ -57,8 +62,20 @@ classdef DataLoader < handle
                 x = cell2mat(batch_x);
             end
             t = cell2mat(batch_t);
+            if self.gpu
+                x = mdl.gpu.as_gpu(x);
+                t = mdl.gpu.as_gpu(t);
+            end
 
             self.iteration = self.iteration + 1;
+        end
+
+        function to_cpu(self)
+            self.gpu = false;
+        end
+
+        function to_gpu(self)
+            self.gpu = true;
         end
     end
 end
