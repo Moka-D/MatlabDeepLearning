@@ -1,5 +1,5 @@
 function txt = get_dot_graph(output, verbose)
-    % txt = get_dot_graph(output, verbose)
+    % txt = mdl.utils.get_dot_graph(output, verbose)
     %
     % Generate a graphviz DOT text of a computational graph.
     %

@@ -19,8 +19,7 @@ classdef MLP < mdl.Model
         function y = forward(self, x)
             for l_i = 1:length(self.layers)-1
                 layer = self.layers{l_i};
-                x = layer(x);
-                x = self.activation(x);
+                x = self.activation(layer(x));
             end
             last_layer = self.layers.last();
             y = last_layer(x);

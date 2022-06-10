@@ -5,7 +5,7 @@ classdef AsType < mdl.common.CallableObj
 
     methods
         function self = AsType(dtype)
-            if ~exist('class_', 'var')
+            if ~exist('dtype', 'var')
                 dtype = 'single';
             end
             self.dtype = dtype;
