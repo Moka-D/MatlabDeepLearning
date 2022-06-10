@@ -1,5 +1,5 @@
 function y = sum_to(x, sz)
-    %% y = mdl.utils.sum_to(x, sz)
+    % y = mdl.utils.sum_to(x, sz)
     %
     % Sum elements along axes to output an array of a given size.
     %

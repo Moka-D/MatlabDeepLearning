@@ -1,4 +1,4 @@
-classdef (Abstract) CallableObj < handle
+classdef (Abstract) GetItemObj < handle
     methods
         function varargout = subsref(self, s)
             switch s(1).type
@@ -7,7 +7,7 @@ classdef (Abstract) CallableObj < handle
                 case '()'
                     if length(s) == 1
                         % Implement self(indices)
-                        [varargout{1:nargout}] = self.call(s.subs{:});
+                        [varargout{1:nargout}] = self.getitem(s.subs{:});
                     else
                         error('Not a valid indexing expression');
                     end
@@ -20,6 +20,6 @@ classdef (Abstract) CallableObj < handle
     end
 
     methods (Abstract, Access = protected)
-        call(self, varargin)
+        getitem(self, varargin)
     end
 end

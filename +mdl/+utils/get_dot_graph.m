@@ -1,5 +1,5 @@
 function txt = get_dot_graph(output, verbose)
-    %% txt = mdl.utils.get_dot_graph(output, verbose)
+    % txt = mdl.utils.get_dot_graph(output, verbose)
     %
     % Generate a graphviz DOT text of a computational graph.
     %
@@ -66,7 +66,7 @@ function txt = dot_var(v, verbose)
         if ~isempty(v.name)
             name = [name, ': '];
         end
-        tmp_txt = sprintf('%s %s', v.size2str, v.dtype);
+        tmp_txt = sprintf('%s %s', v.size2str, class(v));
         name = [name, tmp_txt];
     end
 

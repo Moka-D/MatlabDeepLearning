@@ -17,7 +17,7 @@ classdef Variable < mdl.common.IdentifiedObj
 
             if ~isempty(val)
                 if ~isnumeric(val)
-                    error('%s is not supported.', class(val))
+                    error('%s is not supported.', class(val));
                 end
             end
 
@@ -61,7 +61,7 @@ classdef Variable < mdl.common.IdentifiedObj
             out = length(self.data);
         end
 
-        function txt = dtype(self)
+        function txt = class(self)
             txt = class(self.data);
         end
 
@@ -143,12 +143,12 @@ classdef Variable < mdl.common.IdentifiedObj
                         % self(indices)
                         [varargout{1:nargout}] = mdl.functions.get_item(self, s(1).subs{:});
                     else
-                        error('Not a valid indexing expression.')
+                        error('Not a valid indexing expression.');
                     end
                 case '{}'
                     [varargout{1:nargout}] = builtin('subsref', self, s);
                 otherwise
-                    error('Not a valid indexing expression.')
+                    error('Not a valid indexing expression.');
             end
         end
 
@@ -168,7 +168,12 @@ classdef Variable < mdl.common.IdentifiedObj
             parse(p, varargin{:});
 
             if isempty(self.grad)
-                self.grad = mdl.Variable(ones(size(self.data)));
+                grad_val = ones(size(self.data));
+                if mdl.gpu.on_gpu(self.data)
+                    self.grad = mdl.Variable(gpuArray(grad_val));
+                else
+                    self.grad = mdl.Variable(grad_val);
+                end
             end
 
             funcs = mdl.common.List();
@@ -233,11 +238,17 @@ classdef Variable < mdl.common.IdentifiedObj
                 end
             end
         end
-    end
 
-    methods (Access = protected)
-        function d = double(self)
-            d = self.data;
+        function to_cpu(self)
+            if ~isempty(self.data)
+                self.data = mdl.gpu.as_cpu(self.data);
+            end
+        end
+
+        function to_gpu(self)
+            if ~isempty(self.data)
+                self.data = mdl.gpu.as_gpu(self.data);
+            end
         end
     end
 end

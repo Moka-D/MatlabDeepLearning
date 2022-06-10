@@ -23,7 +23,7 @@ classdef FreezeParam < mdl.common.CallableObj
 
         function call(self, ~)
             for idx = 1:length(self.freeze_params)
-                p = self.freeze_params.at(idx);
+                p = self.freeze_params{idx};
                 p.grad = [];
             end
         end

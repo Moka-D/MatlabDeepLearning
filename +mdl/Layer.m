@@ -21,7 +21,7 @@ classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
         function out = params(self)
             out = {};
             for idx = length(self.params_):-1:1
-                name = self.params_.at(idx);
+                name = self.params_{idx};
                 obj = self.(name);
                 if isa(obj, 'mdl.Layer')
                     out = [out, obj.params()];
@@ -36,6 +36,22 @@ classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
             for idx = 1:length(params)
                 param = params{idx};
                 param.cleargrad();
+            end
+        end
+
+        function to_cpu(self)
+            params = self.params();
+            for idx = 1:length(params)
+                param = params{idx};
+                param.to_cpu();
+            end
+        end
+
+        function to_gpu(self)
+            params = self.params();
+            for idx = 1:length(params)
+                param = params{idx};
+                param.to_gpu();
             end
         end
     end
