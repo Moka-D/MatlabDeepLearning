@@ -1,8 +1,9 @@
-function dst = assign_at_dim(src, ndim, idx, val)
+function dst = assign_at_max_dim(src, idx, val)
     assert(isscalar(idx));
-    assert(isscalar(ndim));
 
     dst = src;
+
+    ndim = mdl.np.ndim(dst);
     if ndim == 1
         dst(idx) = val;
     elseif ndim == 2

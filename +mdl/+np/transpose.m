@@ -14,7 +14,6 @@ function y = transpose(x, axes)
     end
 end
 
-
 function y = transpose_multi(x)
     n = ndims(x);
     if n == 3
