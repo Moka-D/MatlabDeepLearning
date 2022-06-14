@@ -1,4 +1,9 @@
 classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
+    properties
+        inputs
+        outputs
+    end
+
     properties (Access = protected)
         params_
     end
@@ -26,7 +31,7 @@ classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
                 if isa(obj, 'mdl.Layer')
                     out = [out, obj.params()];
                 else
-                    out{end+1} = obj;
+                    out = [out, obj];
                 end
             end
         end
@@ -64,11 +69,11 @@ classdef (Abstract) Layer < dynamicprops & mdl.common.CallableObj
             end
 
             input_num = nargin - 1;
-            self.addprop('inputs', cell(1, input_num));
+            self.inputs = cell(1, input_num);
             for idx = 1:input_num
                 self.inputs{idx} = varargin{idx};
             end
-            self.addprop('outputs', outputs);
+            self.outputs = outputs;
             if length(outputs) == 1
                 outputs = outputs{1};
             end

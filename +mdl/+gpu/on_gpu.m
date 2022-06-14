@@ -1,5 +1,5 @@
 function ret = on_gpu(x)
-    if ~canUseGPU()
+    if ~mdl.gpu.get_gpu_enable()
         ret = false;
         return
     end

@@ -1,7 +1,7 @@
 function out = ndim(x)
     if isscalar(x)
         out = 0;
-    elseif ismatrix(x) && size(x, 1) == 1
+    elseif isrow(x)
         out = 1;
     else
         out = ndims(x);

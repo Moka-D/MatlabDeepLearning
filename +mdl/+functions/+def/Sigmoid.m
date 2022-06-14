@@ -1,7 +1,8 @@
 classdef Sigmoid < mdl.Function
     methods
         function y = forward(~, x)
-            y = tanh(x .* 0.5) .* 0.5 + 0.5;
+            % y = 1 ./ (1 + epx(-x));
+            y = tanh(x .* 0.5) .* 0.5 + 0.5;    % Better implementation
         end
 
         function gx = backward(self, gy)
